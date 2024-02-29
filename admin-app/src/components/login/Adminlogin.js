@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 const Adminlogin = () => {
   return (
     <div className="login template d-flex justify-content-center align-items-center 100-w vh-100 bg-primary  ">
@@ -21,7 +21,7 @@ const Adminlogin = () => {
             ></input>
           </div>
           <div className="d-grid">
-            <button className="btn btn-primary">login</button>
+            <Link to="/dashboard" className="btn btn-primary">login</Link>
           </div>
         </form>
       </div>

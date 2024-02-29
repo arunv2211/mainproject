@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 // import { Link, useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
+import { Link } from "react-router-dom";
 
 const EmpDetail = () => {
   return (
@@ -24,7 +25,7 @@ const EmpDetail = () => {
                   Address : 234,road st, arni , tvmalai{" "}
                 </div>
                 <div className="pb-3">Medicines : </div>
-                <div className="btn btn-danger mb-3 ">Back to Listing</div>
+                <Link to="/dashboard" className="btn btn-danger mb-3 ">Back to Listing</Link>
               </div>
             </div>
           </div>

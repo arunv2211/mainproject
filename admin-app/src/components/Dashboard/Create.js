@@ -1,7 +1,7 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { useState } from "react";
+import { Link} from "react-router-dom";
 
-const Edit = () => {
+const EmpCreate = () => {
   return (
     <div className="bg-primary vh-100">
       <div className="row">
@@ -9,7 +9,7 @@ const Edit = () => {
           <form className="container-create mt-5">
             <div className="card" style={{ textAlign: "left" }}>
               <div className="card-title">
-                <h2 className="text-center">Edit patient detail</h2>
+                <h2 className="text-center">Add new patient</h2>
               </div>
               <div className="card-body">
                 <div className="row">
@@ -62,7 +62,7 @@ const Edit = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Edit
+export default EmpCreate;

@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Adminlogin from "./components/login/Adminlogin";
 import Home from "./components/Dashboard/Home/Home";
 import Dashboard from "./components/Dashboard/Home/Dashboard";
-import Create from "./components/Pages/Create";
+import Create from "./components/Dashboard/Create";
 import Detail from "./components/Dashboard/Detail";
 import Edit from "./components/Dashboard/Edit";
 
@@ -11,21 +11,22 @@ function App() {
   return (
     <div className="App">
 
-      {/* <BrowserRouter>
+      <BrowserRouter>
         <Routes>
-          <Route exact path="/" element={<Dashboard />} />
+          <Route exact path="/" element={<Adminlogin />} />
+          <Route exact path="/dashboard" element={<Dashboard />} />
 
-          <Route path="/Dashboard/create" element={<Create />}></Route>
+          <Route path="/dashboard/create" element={<Create />}></Route>
 
-          <Route path="/Dashboard/detail" element={<Detail />}></Route>
-          <Route path="/Dashboard/edit" element={<Edit />}></Route>
+          <Route path="/dashboard/details" element={<Detail />}></Route>
+          <Route path="/dashboard/edit" element={<Edit />}></Route>
         </Routes>
-      </BrowserRouter> */}
+      </BrowserRouter>
 
 
-      {/* <Home /> */}
+      
       {/* <Adminlogin />      */}
-      <Dashboard />
+      {/* <Dashboard /> */}
       {/* <Create /> */}
       {/* <Detail /> */}
       {/* <Edit /> */}

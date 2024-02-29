@@ -38,6 +38,9 @@ h4{
  
   margin-top: 40px;
 }
+.add-container-one{
+  display: flex;
+}
 
 .container-two{
   margin-top: 40px;
