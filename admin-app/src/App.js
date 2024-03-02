@@ -6,6 +6,7 @@ import Dashboard from "./components/Dashboard/Home/Dashboard";
 import Create from "./components/Dashboard/Create";
 import Detail from "./components/Dashboard/Detail";
 import Edit from "./components/Dashboard/Edit";
+import CustomizedDialogs from "./components/Popups/AddPopup";
 
 function App() {
   return (

@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import CustomizedDialogs from "../Popups/AddPopup";
+
 const Adminlogin = () => {
   return (
     <div className="login template d-flex justify-content-center align-items-center 100-w vh-100 bg-primary  ">
@@ -25,8 +27,10 @@ const Adminlogin = () => {
           </div>
         </form>
       </div>
+      
     </div>
   );
 };
+
 
 export default Adminlogin;
