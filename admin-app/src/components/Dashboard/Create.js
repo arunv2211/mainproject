@@ -2,6 +2,63 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const EmpCreate = () => {
+
+
+  const [name, setName] = useState("");
+  const [username, setUserame] = useState("");
+  const [password, setPassword] = useState("");
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
+  const [dob, setDob] = useState("");
+  const [phoneno, setPhoneno] = useState("");
+  const [alternateno, setAlternateno] = useState("");
+  const [permanentAddress, setPermanentaddress] = useState("");
+  const [currentAddress, setCurrentaddress] = useState("");
+  const [json, setJson] = useState({
+
+    name: '',
+    username: 0,
+    password: '',
+    age: '',
+    gender:'',
+    dob:'',
+    phoneno:'',
+    alternateno:'',
+    permanentAddress:'',
+    currentAddress:''
+  });
+
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    try {
+	setJson({
+      id:id,
+      name: name,
+      age: age,
+      gender: gender
+    })
+    await instance.post('/add',{
+        id:id,
+        name: name,
+        age: age,
+        gender: gender
+      })
+  
+      alert("Registeration Successfull");
+
+      setId("");
+      setName("");
+      setAge("");
+      setGender("");
+    } catch {
+      alert("Failed")
+    }
+  }
+
+
+
+
   return (
     <div className="bg-primary vh-auto">
       <div className="row">
@@ -23,7 +80,7 @@ const EmpCreate = () => {
                   <div className="col-lg-12">
                     <div className="form-group">
                       <label>Username</label>
-                      <input className="form-control"></input>
+                      <input className="form-control" ></input>
                     </div>
                   </div>
 
