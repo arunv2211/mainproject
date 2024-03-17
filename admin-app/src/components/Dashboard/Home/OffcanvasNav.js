@@ -1,6 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const OffcanvasNav = () => {
+  
+const navigate = useNavigate();
+function logout(){
+navigate('/')
+}
+
   return (
     <div>
       <div>
@@ -45,8 +52,8 @@ const OffcanvasNav = () => {
                     </a>
                   </li>
                   <li class="nav-item ">
-                    <a class="nav-link text-white" href="/login">
-                      Logout{" "}
+                    <a class="nav-link text-white" href="/">
+                      Logout
                     </a>
                   </li>
                 </ul>

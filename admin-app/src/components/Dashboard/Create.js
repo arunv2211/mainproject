@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import instance from "./api";
+import { useNavigate } from "react-router-dom";
+import {toast,ToastContainer} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const EmpCreate = () => {
+  const navigate = useNavigate();
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [username, setUserame] = useState("");
@@ -11,7 +17,7 @@ const EmpCreate = () => {
   const [dob, setDob] = useState("");
   const [phoneno, setPhoneno] = useState("");
   const [alternateno, setAlternateno] = useState("");
-  const [permanentAddress, setPermanentaddress] = useState("");
+  const [permanentAddress, setPermanentAddress] = useState("");
   const [currentAddress, setCurrentaddress] = useState("");
   // const [json, setJson] = useState({
   //   id:"",
@@ -27,17 +33,41 @@ const EmpCreate = () => {
   //   currentAddress: "",
   // });
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
-    // console.log({id,name,username,password,age,gender,dob,phoneno,alternateno,permanentAddress,currentAddress})
-    const userData = ({username,password,age,gender,dob,phoneno,alternateno,permanentAddress,currentAddress});
+    try {
+      await instance.post("/create", {
+        userName: username,
+        password: password,
+        age: age,
+        gender: gender,
+        phoneNo: phoneno,
+        aternateNo: alternateno,
+        dateOfBirth: dob,
+      })
+      console.log({
+        userName: username,
+        password: password,
+        age: age,
+        gender: gender,
+        phoneNo: phoneno,
+        aternateNo: alternateno,
+        dateOfBirth: dob,
+      });
+      console.log(permanentAddress);
+      alert("Registeration Successfull")
+      navigate('/dashboard');
+      setUserame("");
+      setPassword("");
+      setAge("");
+      setGender("");
+      setPhoneno("");
+      setAlternateno("");
+      setDob("");
 
-    // setJson({
-    //   // id: id,
-    //   name: name,
-    //   age: age,
-    //   gender: gender,
-    // });
+    } catch {
+      alert("Failed")
+    }
   }
 
   return (
@@ -61,35 +91,48 @@ const EmpCreate = () => {
                       ></input>
                     </div>
                   </div>
-                  <div className="col-lg-12">
-                    <div  className="form-group">
-                      <label>Name</label>
-                      <input value={name} onChange={e=>setName(e.target.value)} className="form-control"></input>
-                    </div>
-                  </div>
+                 
 
                   <div className="col-lg-12">
                     <div className="form-group">
                       <label>Username</label>
-                      <input value={username} onChange={e=>setUserame(e.target.value)} className="form-control"></input>
+                      <input
+                        value={username}
+                        onChange={(e) => setUserame(e.target.value)}
+                        className="form-control"
+                      ></input>
                     </div>
                   </div>
 
                   <div className="col-lg-12">
                     <div className="form-group">
                       <label>Password</label>
-                      <input value={password} onChange={e=>setPassword(e.target.value)} className="form-control"></input>
+                      <input
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="form-control"
+                      ></input>
                     </div>
                   </div>
                   <div className="col-lg-12">
-                    <div  className="form-group">
+                    <div className="form-group">
                       <label>Age</label>
-                      <input value={age} onChange={e=>setAge(e.target.value)} className="form-control"></input>
+                      <input
+                        value={age}
+                        onChange={(e) => setAge(e.target.value)}
+                        className="form-control"
+                      ></input>
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="exampleFormControlSelect1">Gender</label>
-                    <select checked={gender} onChange={e=>setGender(e.target.checked)} type="checkbox" class="form-control" id="exampleFormControlSelect1">
+                    <select
+                      checked={gender}
+                      onChange={(e) => setGender(e.target.checked)}
+                      type="checkbox"
+                      class="form-control"
+                      id="exampleFormControlSelect1"
+                    >
                       <option>Male</option>
                       <option>Female</option>
                     </select>
@@ -98,37 +141,89 @@ const EmpCreate = () => {
                   <div className="col-lg-12">
                     <div className="form-group">
                       <label>D.O.B</label>
-                      <input value={dob} onChange={e=>setDob(e.target.value)} className="form-control" type="date"></input>
+                      <input
+                        value={dob}
+                        onChange={(e) => setDob(e.target.value)}
+                        className="form-control"
+                        type="date"
+                      ></input>
                     </div>
                   </div>
 
                   <div className="col-lg-12">
                     <div className="form-group">
                       <label>Phone no</label>
-                      <input value={phoneno} onChange={e=>setPhoneno(e.target.value)} className="form-control" type="number"></input>
+                      <input
+                        value={phoneno}
+                        onChange={(e) => setPhoneno(e.target.value)}
+                        className="form-control"
+                        type="number"
+                      ></input>
                     </div>
                   </div>
 
                   <div className="col-lg-12">
                     <div className="form-group">
                       <label>Aternate no</label>
-                      <input value={alternateno} onChange={e=>setAlternateno(e.target.value)} className="form-control" type="number"></input>
+                      <input
+                        value={alternateno}
+                        onChange={(e) => setAlternateno(e.target.value)}
+                        className="form-control"
+                        type="number"
+                      ></input>
                     </div>
                   </div>
 
-                  <div className="col-lg-12">
+                  {/* <div className="col-lg-12">
                     <div className="form-group">
-                      <label>Permanent Address</label>
-                      <input value={permanentAddress} onChange={e=>setPermanentaddress(e.target.value)} className="form-control" type="number"></input>
+                      <label>Country</label>
+                      <input
+                        value={permanentAddress}
+                        onChange={(e) => setPermanentAddress(e.target.value)}
+                        className="form-control"
+                        type="text"
+                      ></input>
                     </div>
                   </div>
 
+                  
                   <div className="col-lg-12">
                     <div className="form-group">
-                      <label>Current Address</label>
-                      <input value={currentAddress} onChange={e=>setCurrentaddress(e.target.value)} className="form-control"></input>
+                      <label>State</label>
+                      <input
+                        value={permanentAddress}
+                        onChange={(e) => setPermanentAddress(e.target.value)}
+                        className="form-control"
+                        type="text"
+                      ></input>
                     </div>
                   </div>
+
+
+                  <div className="col-lg-12">
+                    <div className="form-group">
+                      <label>City</label>
+                      <input
+                        value={permanentAddress}
+                        onChange={(e) => setPermanentAddress(e.target.value)}
+                        className="form-control"
+                        type="text"
+                      ></input>
+                    </div>
+                  </div>
+
+
+                  <div className="col-lg-12">
+                    <div className="form-group">
+                      <label>Zipcode</label>
+                      <input
+                        value={permanentAddress}
+                        onChange={(e) => setPermanentAddress(e.target.value)}
+                        className="form-control"
+                        type="number"
+                      ></input>
+                    </div>
+                  </div> */}
 
                   <div className="col-lg-12">
                     <div className="form-group">
