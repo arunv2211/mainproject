@@ -10,12 +10,13 @@ import instance from "../api";
 function Home() {
   const [data, setData] = useState([]);
   useEffect(() => {
-    instance
+   const result = instance
       .get("/userdetails")
       .then((res) => setData(res.data))
       .catch((err) => console.log(err));
-  }, []);
-  console.log(data);
+      
+    }, []);
+ 
   // const [openPopup, setOpenPopup] = useState(false);
   return (
     <div className="container-two">
@@ -57,7 +58,10 @@ function Home() {
               {/* {
                 data.map((user, index) => {
                   return <tr key={index}>
-                    <td></td>
+                    <td>{user.userId}</td>
+                    <td>{user.userName}</td>
+                    <td>{user.user}</td>
+                    <td>{user.userId}</td>
 
                   </tr>
 
