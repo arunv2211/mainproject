@@ -55,7 +55,7 @@ const EmpCreate = () => {
         dateOfBirth: dob,
       });
       console.log(permanentAddress);
-      alert("Registeration Successfull")
+      toast.success("New User Added",{theme:'colored'});
       navigate('/dashboard');
       setUserame("");
       setPassword("");
@@ -66,11 +66,12 @@ const EmpCreate = () => {
       setDob("");
 
     } catch {
-      alert("Failed")
+      toast.error("Enter Valid Details",{theme:'colored'});
     }
   }
 
   return (
+
     <div className="bg-primary vh-auto">
       <div className="row">
         <div className="offset-lg-3 col-lg-6">
@@ -81,21 +82,10 @@ const EmpCreate = () => {
               </div>
               <div className="card-body">
                 <div className="row">
-                  <div className="col-lg-12">
+                  
+                  <div className="col-lg-12 pb-4">
                     <div className="form-group">
-                      <label>ID</label>
-                      <input
-                        value={id}
-                        disabled="disabled"
-                        className="form-control"
-                      ></input>
-                    </div>
-                  </div>
-                 
-
-                  <div className="col-lg-12">
-                    <div className="form-group">
-                      <label>Username</label>
+                      <label><b>Username</b></label>
                       <input
                         value={username}
                         onChange={(e) => setUserame(e.target.value)}
@@ -104,9 +94,9 @@ const EmpCreate = () => {
                     </div>
                   </div>
 
-                  <div className="col-lg-12">
+                  <div className="col-lg-12 pb-4">
                     <div className="form-group">
-                      <label>Password</label>
+                      <label><b>Password</b></label>
                       <input
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -114,9 +104,10 @@ const EmpCreate = () => {
                       ></input>
                     </div>
                   </div>
-                  <div className="col-lg-12">
+
+                  <div className="col-lg-12 pb-4">
                     <div className="form-group">
-                      <label>Age</label>
+                      <label><b>Age</b></label>
                       <input
                         value={age}
                         onChange={(e) => setAge(e.target.value)}
@@ -124,8 +115,8 @@ const EmpCreate = () => {
                       ></input>
                     </div>
                   </div>
-                  <div class="form-group">
-                    <label for="exampleFormControlSelect1">Gender</label>
+                  <div class="form-group pb-4">
+                    <label for="exampleFormControlSelect1"><b>Gender</b></label>
                     <select
                       checked={gender}
                       onChange={(e) => setGender(e.target.checked)}
@@ -138,9 +129,9 @@ const EmpCreate = () => {
                     </select>
                   </div>
 
-                  <div className="col-lg-12">
+                  <div className="col-lg-12 pb-4">
                     <div className="form-group">
-                      <label>D.O.B</label>
+                      <label><b>D.O.B</b></label>
                       <input
                         value={dob}
                         onChange={(e) => setDob(e.target.value)}
@@ -150,9 +141,9 @@ const EmpCreate = () => {
                     </div>
                   </div>
 
-                  <div className="col-lg-12">
+                  <div className="col-lg-12 pb-4">
                     <div className="form-group">
-                      <label>Phone no</label>
+                      <label><b>Phone no</b></label>
                       <input
                         value={phoneno}
                         onChange={(e) => setPhoneno(e.target.value)}
@@ -162,9 +153,9 @@ const EmpCreate = () => {
                     </div>
                   </div>
 
-                  <div className="col-lg-12">
+                  <div className="col-lg-12 pb-4">
                     <div className="form-group">
-                      <label>Aternate no</label>
+                      <label><b>Aternate no</b></label>
                       <input
                         value={alternateno}
                         onChange={(e) => setAlternateno(e.target.value)}

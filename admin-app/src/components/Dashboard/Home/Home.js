@@ -7,20 +7,29 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import instance from "../api";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Home() {
+  const[search,setSearch] = useState('');
   const navigate = useNavigate();
   const LoadEdit = (id) => {
     navigate("/dashboard/edit/" + id);
   };
 
+  const LoadDetail = (id) => {
+    navigate("/dashboard/details/" + id);
+  };
+
   const Removefunction = async (id) => {
     if (window.confirm("Do you want to remove?")) {
-      await instance.delete('/delete/'+id)
+      await instance
+        .delete("/delete/" + id)
         .then((res) => {
-          alert("Removed successfully.");
+          
           window.location.reload();
+          toast.success("Removed successfully",{theme:'colored'});
         })
+        
         .catch((err) => {
           console.log(err.message);
         });
@@ -49,15 +58,16 @@ function Home() {
             <h4 className="text-center">Patient List</h4>
           </div>
 
-          <div className="add-container-one">
+          <div className="add-container">
             <input
               type="text"
               class="form-control"
               placeholder="Search patient by name"
+              onChange={(e) => setSearch(e.target.value)}
             ></input>
-            <div>
+            {/* <div>
               <div className="btn btn-primary w-10 p-1 ">Search</div>
-            </div>
+            </div> */}
             {/* <div className="add-one">Search</div> */}
           </div>
         </div>
@@ -79,7 +89,9 @@ function Home() {
               </tr>
             </thead>
             <tbody>
-              {Data.map((user, index) => (
+              {Data.filter((user =>{
+              return search.toLowerCase() === '' ? user : user.userName.toLowerCase().includes(search)
+              })).map((user, index) => (
                 <tr key={user.userId}>
                   <td>{user.userId}</td>
                   <td>{user.userName}</td>
@@ -95,12 +107,19 @@ function Home() {
                     >
                       Edit
                     </a>
-                    <a 
+                    <a
+                      onClick={() => {
+                        Removefunction(user.userId);
+                      }}
+                      className="btn btn-danger w-10 p-1"
+                    >
+                      Remove
+                    </a>
+                    <a
                     onClick={() => {
-                      Removefunction(user.userId);
+                      LoadDetail(user.userId);
                     }}
-                     className="btn btn-danger w-10 p-1">Remove</a>
-                    <a className="btn btn-primary w-10 p-1">Details</a>
+                    className="btn btn-primary w-10 p-1">Details</a>
                   </td>
                 </tr>
               ))}
@@ -112,5 +131,3 @@ function Home() {
   );
 }
 export default Home;
-
-

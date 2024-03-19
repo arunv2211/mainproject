@@ -1,9 +1,21 @@
 import { useEffect, useState } from "react";
 // import { Link, useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import instance from "./api";
 
 const EmpDetail = () => {
+  const { userid } = useParams();
+
+  const [patientData, patientDataChange] = useState({});
+
+  useEffect(() => {
+    instance.get("/getuserbyid/" + userid).then((res) => {
+      patientDataChange(res.data);
+    });
+  }, []);
+  console.log(patientData);
+
   return (
     <div className="bg-primary vh-100">
       <div className="row ">
@@ -11,13 +23,27 @@ const EmpDetail = () => {
           <div className="container-details mt-5 ">
             <div className="card row" style={{ textAlign: "left" }}>
               <div className="card-title">
-                <h2 className="text-center mt-3">Patient Details</h2>
+                <h2 className="text-center mt-3"><b>PATIENT DETAILS</b></h2>
               </div>
               <div className="card-body"></div>
 
-              <div>
+              {patientData && (
+                <div>
+                  <div className="pb-3"><b>Patient Name</b>  -    {patientData.userName}</div>
+                  <div className="pb-3"><b>Age</b>  -    {patientData.age} </div>
+                  <div className="pb-3"><b>Date Of Birth</b>  -   {patientData.dateOfBirth} </div>
+                  <div className="pb-3"><b>Phone No</b>   -   {patientData.phoneNo} </div>
+                  <div className="pb-3"><b>Aternate no</b>   -   {patientData.alternateNo}</div>
+                  <div className="pb-3"><b>Gender</b>   -   {patientData.gender}</div>
+                  <div className="pb-3"><b>Medicines</b>  -   </div>
+                  <Link to="/dashboard" className="btn btn-danger mb-3 ">
+                    Back to Listing
+                  </Link>
+                </div>
+              )}
+
+              {/* <div>
                 <div className="pb-3">patient name : Arun</div>
-                {/* <h5>Contact Details</h5> */}
 
                 <div className="pb-3">Phone : 2103987097 </div>
                 <div className="pb-3">Aternate no : 2103987097 </div>
@@ -26,7 +52,7 @@ const EmpDetail = () => {
                 </div>
                 <div className="pb-3">Medicines : </div>
                 <Link to="/dashboard" className="btn btn-danger mb-3 ">Back to Listing</Link>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -36,4 +62,3 @@ const EmpDetail = () => {
 };
 
 export default EmpDetail;
- 

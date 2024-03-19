@@ -7,6 +7,7 @@ import Create from "./components/Dashboard/Create";
 import Detail from "./components/Dashboard/Detail";
 import Edit from "./components/Dashboard/Edit";
 import CustomizedDialogs from "./components/Popups/AddPopup";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -19,10 +20,11 @@ function App() {
 
           <Route path="/dashboard/create" element={<Create />}></Route>
 
-          <Route path="/dashboard/details" element={<Detail />}></Route>
+          <Route path='/dashboard/details/:userid' element={<Detail />}></Route>
           <Route path='/dashboard/edit/:userid' element={<Edit />}></Route>
         </Routes>
       </BrowserRouter>
+      <ToastContainer />
 
 
       

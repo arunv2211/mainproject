@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import instance from "../Dashboard/api";
-
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
 const Adminlogin = () => {
   const navigate = useNavigate();
 
@@ -19,7 +20,7 @@ const Adminlogin = () => {
         .get("/getuser/" + userName+"/"+password)
         .then((response) => {
           if(response.status===200){
-            alert("Login success");
+            toast.success("Login success",{theme:'colored'});
             console.log(response.data);
             navigate('/dashboard');
 
@@ -48,7 +49,7 @@ const Adminlogin = () => {
       setPassword("");
     } catch (error) {
       console.log(error)
-      alert("Not Found");
+      toast.error("Not Found",{theme:'colored'});
     }
   }
 
