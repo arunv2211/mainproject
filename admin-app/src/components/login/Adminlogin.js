@@ -16,17 +16,33 @@ const Adminlogin = () => {
 
     try {
       await instance
-        .get("/getuser/" + userName)
-        .then((response) => setData(response.data));
+        .get("/getuser/" + userName+"/"+password)
+        .then((response) => {
+          if(response.status===200){
+            alert("Login success");
+            console.log(response.data);
+            navigate('/dashboard');
+
+          }
+          else{
+            if(response.status===500){
+              alert("server error");
+            }
+            else{
+              alert("Enter valid username or password");
+            }
+          }
+        });
       console.log(Data);
 
       
-      if (Data.userName === userName) {
-        alert("Registeration Successfull");
-        navigate("/dashboard");
-      } else {
-        alert("Invalid userName or password");
-      }
+      
+      // if (Data.userName === userName) {
+      //   alert("Registeration Successfull");
+      //   navigate("/dashboard");
+      // } else {
+      //   alert("Invalid userName or password");
+      // }
 
       setUserName("");
       setPassword("");

@@ -1,7 +1,40 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
+import { useEffect , useState} from 'react';
+import { Link, useNavigate, useParams } from "react-router-dom";
+import instance from './api';
 
 const Edit = () => {
+  const { userId } = useParams();
+  console.log(userId);
+
+  useEffect(() => {
+    loadUser();
+     }, []);
+ 
+     const loadUser= async()=>{
+       await instance.get("/getuserbyid/" + userId).then(res => {
+        setData(res.data.data.data)
+         console.log(Data) 
+       })
+      }
+
+const navigate = useNavigate();
+
+  const [Data, setData] = useState("");
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
+  const [username, setUserame] = useState("");
+  const [password, setPassword] = useState("");
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
+  const [dob, setDob] = useState("");
+  const [phoneno, setPhoneno] = useState("");
+  const [alternateno, setAlternateno] = useState("");
+  const [permanentAddress, setPermanentAddress] = useState("");
+  const [currentAddress, setCurrentaddress] = useState("");
+  
+
   return (
     <div className="bg-primary vh-100">
       <div className="row">

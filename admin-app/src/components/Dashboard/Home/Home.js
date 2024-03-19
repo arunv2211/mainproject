@@ -6,17 +6,40 @@ import "./homestyle.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import instance from "../api";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
-  const [data, setData] = useState([]);
+  const navigate = useNavigate();
+  const LoadEdit = (id) => {
+    navigate("/dashboard/edit/" + id);
+  };
+
+  const Removefunction = async (id) => {
+    if (window.confirm("Do you want to remove?")) {
+      await instance.delete('/delete/'+id)
+        .then((res) => {
+          alert("Removed successfully.");
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    }
+  };
+
+  const [Data, setData] = useState([]);
+
   useEffect(() => {
-   const result = instance
-      .get("/userdetails")
-      .then((res) => setData(res.data))
-      .catch((err) => console.log(err));
-      
-    }, []);
- 
+    loadUsers();
+  }, []);
+
+  const loadUsers = async () => {
+    await instance.get("/userdetails").then((res) => {
+      setData(res.data.data.data);
+      console.log(Data);
+    });
+  };
+  console.log(Data);
   // const [openPopup, setOpenPopup] = useState(false);
   return (
     <div className="container-two">
@@ -46,28 +69,41 @@ function Home() {
           </div>
           <table className="table table-bordered">
             <thead className="bg-dark text-white">
-              <tr>
-                <td>UserId</td>
-                <td>UserName</td>
-                <td>Number</td>
-                <td>Age</td>
-                <td>Actions</td>
+              <tr className="table-secondary">
+                <th>UserId</th>
+                <th>UserName</th>
+                <th>Password</th>
+                <th>Number</th>
+                <th>Date Of Birth</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {/* {
-                data.map((user, index) => {
-                  return <tr key={index}>
-                    <td>{user.userId}</td>
-                    <td>{user.userName}</td>
-                    <td>{user.user}</td>
-                    <td>{user.userId}</td>
-
-                  </tr>
-
-                })
-              } */}
-              
+              {Data.map((user, index) => (
+                <tr key={user.userId}>
+                  <td>{user.userId}</td>
+                  <td>{user.userName}</td>
+                  <td>{user.password}</td>
+                  <td>{user.phoneNo}</td>
+                  <td>{user.dateOfBirth}</td>
+                  <td>
+                    <a
+                      onClick={() => {
+                        LoadEdit(user.userId);
+                      }}
+                      className="btn btn-success w-10 p-1"
+                    >
+                      Edit
+                    </a>
+                    <a 
+                    onClick={() => {
+                      Removefunction(user.userId);
+                    }}
+                     className="btn btn-danger w-10 p-1">Remove</a>
+                    <a className="btn btn-primary w-10 p-1">Details</a>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -77,15 +113,4 @@ function Home() {
 }
 export default Home;
 
-{
-  /* <tr>
-                <td>Arun</td>
-                <td>128328873</td>
-                <td>21</td>
-                <td>
-                  <Link to="/dashboard/edit" className="btn btn-success w-10 p-1">Edit</Link>
-                  <Link to="/dashboard" className="btn btn-danger w-10 p-1">Remove</Link>
-                  <Link to="/dashboard/details" className="btn btn-primary w-10 p-1">Details</Link>
-                </td>
-              </tr> */
-}
+

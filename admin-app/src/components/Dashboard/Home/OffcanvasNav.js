@@ -46,7 +46,7 @@ navigate('/')
                     <a
                       class="nav-link active text-white"
                       aria-current="page"
-                      href="#"
+                      href="/dashboard"
                     >
                       Home{" "}
                     </a>
