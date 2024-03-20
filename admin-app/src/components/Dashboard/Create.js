@@ -87,9 +87,12 @@ const EmpCreate = () => {
                     <div className="form-group">
                       <label><b>Username</b></label>
                       <input
+                      className="form-control"
+                      type="text"
+                      // pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$"
+                      title="Invalid Email" required
                         value={username}
                         onChange={(e) => setUserame(e.target.value)}
-                        className="form-control"
                       ></input>
                     </div>
                   </div>
@@ -98,9 +101,11 @@ const EmpCreate = () => {
                     <div className="form-group">
                       <label><b>Password</b></label>
                       <input
+                       className="form-control"
+                      type="password"
+                      // pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="form-control"
                       ></input>
                     </div>
                   </div>

@@ -5,19 +5,30 @@ import { useNavigate } from "react-router-dom";
 import instance from "../Dashboard/api";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
+import validation from "./LoginValidation";
 const Adminlogin = () => {
   const navigate = useNavigate();
+  const [errors, setError] = useState({})
+  // const [userName, setUserName] = useState("");
+  // const [password, setPassword] = useState("");
+  const [Data, setData] = useState({
+    username:'',
+    password:''
+  });
+console.log(Data)
 
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [Data, setData] = useState(null);
+  function handleChange(event){
+  
+    setData({...Data, [event.target.name]:event.target.value})
+  }
 
   async function handleSubmit(event) {
     event.preventDefault();
-
+    
+    // setError(validation(Data));
     try {
       await instance
-        .get("/getuser/" + userName+"/"+password)
+        .get("/getuser/" + Data.username+"/"+Data.password)
         .then((response) => {
           if(response.status===200){
             toast.success("Login success",{theme:'colored'});
@@ -45,8 +56,10 @@ const Adminlogin = () => {
       //   alert("Invalid userName or password");
       // }
 
-      setUserName("");
-      setPassword("");
+      // setUserName("");
+      // setPassword("");
+
+
     } catch (error) {
       console.log(error)
       toast.error("Not Found",{theme:'colored'});
@@ -60,21 +73,26 @@ const Adminlogin = () => {
           <h3 className="text-center mb-3">Login</h3>
           <div className="mb-4">
             <input
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
+            name="username"
+            className="form-control"
+              value={Data.username}
+              onChange={handleChange}
               type="text"
+              // pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$"
               placeholder="Username"
-              className="form-control"
-            ></input>
+            ></input>{errors.username && <p style={{color:"red", fontSize:"13px"}}>{errors.username}</p>}
           </div>
+
           <div className="mb-4">
             <input
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+            className="form-control"
+            name="password"
+              value={Data.password}
+              onChange={handleChange}
               type="password"
-              placeholder="Password"
-              className="form-control"
-            ></input>
+              // pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required
+              placeholder="Password"    
+            ></input>{errors.password && <p style={{color:"red", fontSize:"13px"}}>{errors.password}</p>}
           </div>
           <div className="d-grid">
             <button className="btn btn-primary" type="submit">
