@@ -45,10 +45,8 @@ function Home() {
   const loadUsers = async () => {
     await instance.get("/userdetails").then((res) => {
       setData(res.data.data.data);
-      console.log(Data);
     });
   };
-  console.log(Data);
   // const [openPopup, setOpenPopup] = useState(false);
   return (
     <div className="container-two">

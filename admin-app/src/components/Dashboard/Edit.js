@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 const Edit = () => {
   const navigate = useNavigate();
   const { userid } = useParams();
-  const [patientData, patientDataChange] = useState([]);
+ 
 
   const [Userid, setUserId] = useState("");
   const [username, setUserame] = useState("");
@@ -21,6 +21,20 @@ const Edit = () => {
   const [permanentAddress, setPermanentAddress] = useState("");
   const [currentAddress, setCurrentaddress] = useState("");
   
+  const [patientData, patientDataChange] = useState([
+
+    {
+      "userId" : Userid,
+      "userName": username,
+      "password": password,
+      "age": age,
+      "gender": gender,
+      "phoneNo": phoneno,
+      "dateOfBirth": dob,
+      "aternateNo": alternateno
+      
+    }
+  ]);
 
   useEffect(() => {
     instance.get("/getuserbyid/" + userid).then((res) => {
@@ -37,7 +51,6 @@ const Edit = () => {
       setAlternateno(res.data.alternateNo);
     });
   }, []);
-  console.log(patientData);
 
   // setUserame(patientData.userName);
   // setPassword(patientData.password);
@@ -45,31 +58,22 @@ const Edit = () => {
   // setGender(patientData.gender);
   // setPhoneno(patientData.phoneNo);
   // setAlternateno(patientData.alternateno);
+  const jsondata =JSON.stringify(patientData);
 
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      await instance.put("/update", {
-        userid : Userid,
-        userName: username,
-        password: password,
-        age: age,
-        gender: gender,
-        phoneNo: phoneno,
-        dateOfBirth: dob,
-        aternateNo: alternateno
-        
-      })
-      console.log({
-        userName: username,
-        password: password,
-        age: age,
-        gender: gender,
-        phoneNo: phoneno,
-        aternateNo: alternateno,
-        dateOfBirth: dob,
-      });
-      console.log(permanentAddress);
+      await instance.put("/update", {jsondata})
+      // console.log({
+      //   userName: username,
+      //   password: password,
+      //   age: age,
+      //   gender: gender,
+      //   phoneNo: phoneno,
+      //   aternateNo: alternateno,
+      //   dateOfBirth: dob,
+      // });
+      // console.log(permanentAddress);
       toast.success("Updated successfully",{theme:'colored'});
       navigate('/dashboard');
       setUserame("");
