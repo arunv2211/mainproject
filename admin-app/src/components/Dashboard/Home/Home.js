@@ -8,10 +8,26 @@ import { Link } from "react-router-dom";
 import instance from "../api";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import PuffLoader from "react-spinners/PuffLoader";
+import { LiaUserEditSolid } from "react-icons/lia";
+import { RiDeleteBin2Fill } from "react-icons/ri";
+import { RiFileList2Line } from "react-icons/ri";
+import { BsPersonFillAdd } from "react-icons/bs";
+import { MdChecklist } from "react-icons/md";
+import TreatmentForm from "../TreatmentForm";
+import History from "../../History/History";
+
+
 
 function Home() {
-  const[search,setSearch] = useState('');
+  let [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
+
+  const LoadForm = (userid) => {
+    navigate("/dashboard/treatment/" + userid);
+  };
+
   const LoadEdit = (id) => {
     navigate("/dashboard/edit/" + id);
   };
@@ -20,16 +36,20 @@ function Home() {
     navigate("/dashboard/details/" + id);
   };
 
+  const LoadHistory = (id) => {
+    navigate("/dashboard/history/" + id);
+  }
+
+  // setLoading(false)
   const Removefunction = async (id) => {
     if (window.confirm("Do you want to remove?")) {
       await instance
         .delete("/delete/" + id)
         .then((res) => {
-          
           window.location.reload();
-          toast.success("Removed successfully",{theme:'colored'});
+          toast.success("Removed successfully", { theme: "colored" });
         })
-        
+
         .catch((err) => {
           console.log(err.message);
         });
@@ -46,23 +66,14 @@ function Home() {
     await instance.get("/userdetails").then((res) => {
       setData(res.data.data.data);
     });
+    setLoading(true);
   };
   // const [openPopup, setOpenPopup] = useState(false);
   return (
     <div className="container-two">
       <div className="card">
         <div className="card-title ">
-          <div class="d-flex flex-row ">
-            <h4 className="text-center">Patient List</h4>
-          </div>
-
           <div className="add-container">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Search patient by name"
-              onChange={(e) => setSearch(e.target.value)}
-            ></input>
             {/* <div>
               <div className="btn btn-primary w-10 p-1 ">Search</div>
             </div> */}
@@ -71,9 +82,29 @@ function Home() {
         </div>
         <div className="card-body">
           <div>
-            <Link to="/dashboard/create" className="btn btn-primary  w-10 p-1">
-              Add new (+)
-            </Link>
+            <div className="d-flex justify-content-between mt-3 ">
+            <div>
+              <b> <MdChecklist /> Patient List</b>
+            </div>
+            <div >
+              <Link
+                to="/dashboard/create"
+                className="btn btn-primary  w-10 p-1"
+              >
+               <b> Add new</b>
+                <BsPersonFillAdd />
+              </Link>
+            </div>
+
+            </div>
+            <div className=" pb-3 pt-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search patient by name"
+                onChange={(e) => setSearch(e.target.value)}
+              ></input>
+            </div>
           </div>
           <table className="table table-bordered">
             <thead className="bg-dark text-white">
@@ -84,43 +115,73 @@ function Home() {
                 <th>Number</th>
                 <th>Date Of Birth</th>
                 <th>Actions</th>
+                <th>Treatment</th>
               </tr>
             </thead>
             <tbody>
-              {Data.filter((user =>{
-              return search.toLowerCase() === '' ? user : user.userName.toLowerCase().includes(search)
-              })).map((user, index) => (
-                <tr key={user.userId}>
-                  <td>{user.userId}</td>
-                  <td>{user.userName}</td>
-                  <td>{user.password}</td>
-                  <td>{user.phoneNo}</td>
-                  <td>{user.dateOfBirth}</td>
-                  <td>
-                    <a
-                      onClick={() => {
-                        LoadEdit(user.userId);
-                      }}
-                      className="btn btn-success w-10 p-1"
-                    >
-                      Edit
-                    </a>
-                    <a
-                      onClick={() => {
-                        Removefunction(user.userId);
-                      }}
-                      className="btn btn-danger w-10 p-1"
-                    >
-                      Remove
-                    </a>
-                    <a
-                    onClick={() => {
-                      LoadDetail(user.userId);
-                    }}
-                    className="btn btn-primary w-10 p-1">Details</a>
-                  </td>
-                </tr>
-              ))}
+              {loading ? (
+                Data.filter((user) => {
+                  return search.toLowerCase() === ""
+                    ? user
+                    : user.userName.toLowerCase().includes(search);
+                }).map((user, index) => (
+                  <tr key={user.userId}>
+                    <td>{user.userId}</td>
+                    <td>{user.userName}</td>
+                    <td>{user.password}</td>
+                    <td>{user.phoneNo}</td>
+                    <td>{user.dateOfBirth}</td>
+                    <td>
+                      <a
+                        onClick={() => {
+                          LoadEdit(user.userId);
+                        }}
+                        className="btn btn-success"
+                      >
+                        <LiaUserEditSolid />
+                      </a>
+                      <a
+                        onClick={() => {
+                          Removefunction(user.userId);
+                        }}
+                        className="btn btn-danger "
+                      >
+                        <RiDeleteBin2Fill />
+                      </a>
+                      <a
+                        onClick={() => {
+                          LoadDetail(user.userId);
+                        }}
+                        className="btn btn-primary"
+                      >
+                        <RiFileList2Line />
+                      </a>
+                    </td>
+                    <td>
+                      {/* <TreatmentForm /> */}
+                      <a
+                        onClick={() => {
+                          LoadForm(user.userId);
+                        }}
+                        className="btn btn-secondary btn-sm"
+                      >Treatment
+                        </a>
+
+                      <a
+                        onClick={() => {
+                          LoadHistory(user.userId);
+                        }}
+                        className="btn btn-primary btn-sm"
+                      >History
+                        </a>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <div className="loader">
+                  <PuffLoader color="#0000FF" />
+                </div>
+              )}
             </tbody>
           </table>
         </div>

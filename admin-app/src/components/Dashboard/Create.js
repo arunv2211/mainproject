@@ -2,144 +2,191 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import instance from "./api";
 import { useNavigate } from "react-router-dom";
-import {toast,ToastContainer} from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css';
-
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Validation from "./Vallidation";
 
 const EmpCreate = () => {
   const navigate = useNavigate();
-  const [id, setId] = useState("");
-  const [name, setName] = useState("");
-  const [username, setUserame] = useState("");
-  const [password, setPassword] = useState("");
-  const [age, setAge] = useState("");
-  const [gender, setGender] = useState("");
-  const [dob, setDob] = useState("");
-  const [phoneno, setPhoneno] = useState("");
-  const [alternateno, setAlternateno] = useState("");
-  const [permanentAddress, setPermanentAddress] = useState("");
-  const [currentAddress, setCurrentaddress] = useState("");
-  // const [json, setJson] = useState({
-  //   id:"",
-  //   name: "",
-  //   username: 0,
-  //   password: "",
-  //   age: "",
-  //   gender: "",
-  //   dob: "",
-  //   phoneno: "",
-  //   alternateno: "",
-  //   permanentAddress: "",
-  //   currentAddress: "",
-  // });
+  // const [id, setId] = useState("");
+  // const [name, setName] = useState("");
+  // const [username, setUserame] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [age, setAge] = useState("");
+  // const [gender, setGender] = useState("");
+  // const [dob, setDob] = useState("");
+  // const [phoneno, setPhoneno] = useState("");
+  // const [alternateno, setAlternateno] = useState("");
+  // const [permanentAddress, setPermanentAddress] = useState("");
+  // const [currentAddress, setCurrentaddress] = useState("");
+  const [values, setValues] = useState({
+    username: "",
+    password: "",
+    age: "",
+    gender: "",
+    dob: "",
+    phoneno: "",
+    alternateno: "",
+    country: "",
+    state: "",
+    city: "",
+    zip_code: "",
+    currentcountry: "",
+    currentstate: "",
+    currentcity: "",
+    currentzip_code: "",
+  });
 
-  async function handleSubmit(event) {
+  const [errors, setErrors] = useState({});
+
+  function handleInput(event) {
+    // const newObj = {...values,[event.target.name]: event.target.value}
+    // setValues(newObj)
+    setValues({ ...values, [event.target.name]: event.target.value });
+  }
+
+  function handleValidation(event) {
     event.preventDefault();
+    setErrors(Validation(values));
+    handleSubmit();
+  }
+
+  async function handleSubmit() {
+    // event.preventDefault();
     try {
       await instance.post("/create", {
-        userName: username,
-        password: password,
-        age: age,
-        gender: gender,
-        phoneNo: phoneno,
-        aternateNo: alternateno,
-        dateOfBirth: dob,
-      })
-      console.log({
-        userName: username,
-        password: password,
-        age: age,
-        gender: gender,
-        phoneNo: phoneno,
-        aternateNo: alternateno,
-        dateOfBirth: dob,
+        userName: values.username,
+        password: values.password,
+        age: values.age,
+        gender: values.gender,
+        phoneNo: values.phoneno,
+        aternateNo: values.alternateno,
+        dateOfBirth: values.dob,
+        address: [
+          {
+            address_type: "permanent",
+            country: values.country,
+            state: values.state,
+            city: values.city,
+            zip_code: values.zip_code,
+          },
+          {
+            address_type: "current",
+            country: values.currentcountry,
+            state: values.currentstate,
+            city: values.currentcity,
+            zip_code: values.currentzip_code,
+          },
+        ]
       });
-      console.log(permanentAddress);
-      toast.success("New User Added",{theme:'colored'});
-      navigate('/dashboard');
-      setUserame("");
-      setPassword("");
-      setAge("");
-      setGender("");
-      setPhoneno("");
-      setAlternateno("");
-      setDob("");
-
+      toast.success("New User Added", { theme: "colored" });
+      navigate("/dashboard");
+      // setUserame("");
+      // setPassword("");
+      // setAge("");
+      // setGender("");
+      // setPhoneno("");
+      // setAlternateno("");
+      // setDob("");
     } catch {
-      toast.error("Enter Valid Details",{theme:'colored'});
+      toast.error("Enter Valid Details", { theme: "colored" });
     }
   }
 
   return (
-
     <div className="bg-primary vh-auto">
       <div className="row">
         <div className="offset-lg-3 col-lg-6">
-          <form onSubmit={handleSubmit} className="container-create mt-5">
+          <form onSubmit={handleValidation} className="container-create mt-5">
             <div className="card" style={{ textAlign: "left" }}>
               <div className="card-title">
                 <h2 className="text-center">Add new patient</h2>
               </div>
               <div className="card-body">
                 <div className="row">
-                  
                   <div className="col-lg-12 pb-4">
                     <div className="form-group">
-                      <label><b>Username</b></label>
+                      <label>
+                        <b>Username</b>
+                      </label>
                       <input
-                      className="form-control"
-                      type="text"
-                      // pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$"
-                      title="Invalid Email" required
-                        value={username}
-                        onChange={(e) => setUserame(e.target.value)}
-                      ></input>
+                        className="form-control"
+                        name="username"
+                        type="email"
+                        // value={values.username}
+                        onChange={handleInput}
+                        // onChange={(e) => setUserame(e.target.value)}
+                      />
+                      {errors.username && (
+                        <p style={{ color: "red", fontSize: "13px" }}>
+                          {errors.username}
+                        </p>
+                      )}
                     </div>
                   </div>
 
                   <div className="col-lg-12 pb-4">
                     <div className="form-group">
-                      <label><b>Password</b></label>
+                      <label>
+                        <b>Password</b>
+                      </label>
                       <input
-                       className="form-control"
-                      type="password"
-                      // pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        className="form-control"
+                        name="password"
+                        type="password"
+                        // value={values.password}
+                        onChange={handleInput}
+                        // onChange={(e) => setPassword(e.target.value)}
                       ></input>
+                      {errors.password && (
+                        <p style={{ color: "red", fontSize: "13px" }}>
+                          {errors.password}
+                        </p>
+                      )}
                     </div>
                   </div>
 
                   <div className="col-lg-12 pb-4">
                     <div className="form-group">
-                      <label><b>Age</b></label>
+                      <label>
+                        <b>Age</b>
+                      </label>
                       <input
-                        value={age}
-                        onChange={(e) => setAge(e.target.value)}
+                        name="age"
+                        onChange={handleInput}
+                        // value={values.age}
+                        // onChange={(e) => setAge(e.target.value)}
                         className="form-control"
                       ></input>
                     </div>
                   </div>
-                  <div class="form-group pb-4">
-                    <label for="exampleFormControlSelect1"><b>Gender</b></label>
-                    <select
-                      checked={gender}
-                      onChange={(e) => setGender(e.target.checked)}
-                      type="checkbox"
-                      class="form-control"
-                      id="exampleFormControlSelect1"
-                    >
-                      <option>Male</option>
-                      <option>Female</option>
-                    </select>
+
+                  <div className="col-lg-12 pb-4">
+                    <div className="form-group">
+                      <label>
+                        <b>Gender</b>
+                      </label>
+                      <input
+                        name="gender"
+                        // value={values.dob}
+                        onChange={handleInput}
+                        // onChange={(e) => setDob(e.target.value)}
+                        className="form-control"
+                        type="text"
+                      ></input>
+                    </div>
                   </div>
 
                   <div className="col-lg-12 pb-4">
                     <div className="form-group">
-                      <label><b>D.O.B</b></label>
+                      <label>
+                        <b>D.O.B</b>
+                      </label>
                       <input
-                        value={dob}
-                        onChange={(e) => setDob(e.target.value)}
+                        name="dob"
+                        // value={values.dob}
+                        onChange={handleInput}
+                        // onChange={(e) => setDob(e.target.value)}
                         className="form-control"
                         type="date"
                       ></input>
@@ -148,78 +195,163 @@ const EmpCreate = () => {
 
                   <div className="col-lg-12 pb-4">
                     <div className="form-group">
-                      <label><b>Phone no</b></label>
+                      <label>
+                        <b>Phone no</b>
+                      </label>
                       <input
-                        value={phoneno}
-                        onChange={(e) => setPhoneno(e.target.value)}
+                        name="phoneno"
+                        // value={values.phoneno}
+                        onChange={handleInput}
+                        // onChange={(e) => setPhoneno(e.target.value)}
                         className="form-control"
                         type="number"
                       ></input>
+                      {errors.phoneno && (
+                        <p style={{ color: "red", fontSize: "13px" }}>
+                          {errors.phoneno}
+                        </p>
+                      )}
                     </div>
                   </div>
 
                   <div className="col-lg-12 pb-4">
                     <div className="form-group">
-                      <label><b>Aternate no</b></label>
+                      <label>
+                        <b>Aternate no</b>
+                      </label>
                       <input
-                        value={alternateno}
-                        onChange={(e) => setAlternateno(e.target.value)}
+                        name="alternateno"
+                        // value={values.alternateno}
+                        onChange={handleInput}
+                        // onChange={(e) => setAlternateno(e.target.value)}
+                        className="form-control"
+                        type="number"
+                      ></input>
+                      {errors.phoneno && (
+                        <p style={{ color: "red", fontSize: "13px" }}>
+                          {errors.phoneno}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="col-lg-12">
+                    <label>
+                      <b>Current Address :</b>
+                    </label>
+                    <div className="form-group">
+                      <label>
+                        <b>Country</b>
+                      </label>
+                      <input
+                        name="currentcountry"
+                        onChange={handleInput}
+                        className="form-control"
+                        type="text"
+                      ></input>
+                    </div>
+                  </div>
+
+                  <div className="col-lg-12">
+                    <div className="form-group">
+                      <label>
+                        <b>State</b>
+                      </label>
+                      <input
+                        name="currentstate"
+                        onChange={handleInput}
+                        className="form-control"
+                        type="text"
+                      ></input>
+                    </div>
+                  </div>
+
+                  <div className="col-lg-12">
+                    <div className="form-group">
+                      <label>
+                        <b>City</b>
+                      </label>
+                      <input
+                        name="currentcity"
+                        onChange={handleInput}
+                        className="form-control"
+                        type="text"
+                      ></input>
+                    </div>
+                  </div>
+
+                  <div className="col-lg-12">
+                    <div className="form-group">
+                      <label>
+                        <b>Zipcode</b>
+                      </label>
+                      <input
+                        name="currentzipcode"
+                        onChange={handleInput}
                         className="form-control"
                         type="number"
                       ></input>
                     </div>
                   </div>
 
-                  {/* <div className="col-lg-12">
+                  <div className="col-lg-12">
+                    <label>
+                      <b>Permanent Address :</b>
+                    </label>
                     <div className="form-group">
-                      <label>Country</label>
+                      <label>
+                        <b>Country</b>
+                      </label>
                       <input
-                        value={permanentAddress}
-                        onChange={(e) => setPermanentAddress(e.target.value)}
+                        name="country"
+                        onChange={handleInput}
                         className="form-control"
                         type="text"
                       ></input>
                     </div>
                   </div>
 
-                  
                   <div className="col-lg-12">
                     <div className="form-group">
-                      <label>State</label>
+                      <label>
+                        <b>State</b>
+                      </label>
                       <input
-                        value={permanentAddress}
-                        onChange={(e) => setPermanentAddress(e.target.value)}
+                        name="state"
+                        onChange={handleInput}
                         className="form-control"
                         type="text"
                       ></input>
                     </div>
                   </div>
 
-
                   <div className="col-lg-12">
                     <div className="form-group">
-                      <label>City</label>
+                      <label>
+                        <b>City</b>
+                      </label>
                       <input
-                        value={permanentAddress}
-                        onChange={(e) => setPermanentAddress(e.target.value)}
+                        name="city"
+                        onChange={handleInput}
                         className="form-control"
                         type="text"
                       ></input>
                     </div>
                   </div>
 
-
                   <div className="col-lg-12">
                     <div className="form-group">
-                      <label>Zipcode</label>
+                      <label>
+                        <b>Zipcode</b>
+                      </label>
                       <input
-                        value={permanentAddress}
-                        onChange={(e) => setPermanentAddress(e.target.value)}
+                        name="zipcode"
+                        onChange={handleInput}
                         className="form-control"
                         type="number"
                       ></input>
                     </div>
-                  </div> */}
+                  </div>
 
                   <div className="col-lg-12">
                     <div className="form-group">

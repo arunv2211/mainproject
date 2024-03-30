@@ -45,3 +45,9 @@ h4{
 .container-two{
   margin-top: 40px;
 }
+
+.loader{
+  margin-left: 420%;
+  margin-top: 30%;
+  color: #3B71CA;
+}

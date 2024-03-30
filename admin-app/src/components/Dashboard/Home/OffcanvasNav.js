@@ -1,5 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { IoHome } from "react-icons/io5";
+import { RiLogoutCircleRLine } from "react-icons/ri";
 
 const OffcanvasNav = () => {
   
@@ -44,16 +46,17 @@ navigate('/')
                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                   <li class="nav-item">
                     <a
-                      class="nav-link active text-white"
+                      class="nav-link active text-white r-4"
                       aria-current="page"
                       href="/dashboard"
+
                     >
-                      Home{" "}
+                    <b className="pt-4">Home</b> 
                     </a>
                   </li>
                   <li class="nav-item ">
                     <a class="nav-link text-white" href="/">
-                      Logout
+                    <b>logout</b>  
                     </a>
                   </li>
                 </ul>
@@ -67,3 +70,8 @@ navigate('/')
 };
 
 export default OffcanvasNav;
+
+
+
+{/* <IoHome /> */}
+{/* <RiLogoutCircleRLine /> */}

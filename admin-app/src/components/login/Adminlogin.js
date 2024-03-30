@@ -5,71 +5,59 @@ import { useNavigate } from "react-router-dom";
 import instance from "../Dashboard/api";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import validation from "./LoginValidation";
-
- 
+import LoginValidation from "./LoginValidation";
 
 const Adminlogin = () => {
-
   const navigate = useNavigate();
   const [errors, setError] = useState({});
-  // const [userName, setUserName] = useState("");
-  // const [password, setPassword] = useState("");
+  const [Data, setData] = useState([]);
   const [values, setValues] = useState({
     username: "",
     password: "",
   });
 
-  const [Data, setData] = useState([]);
- 
-
   function handleChange(event) {
     setValues({ ...values, [event.target.name]: event.target.value });
   }
-
-  async function handleSubmit(event) {
+  function handleValidation(event) {
     event.preventDefault();
+    setError(LoginValidation(values));
+    handleSubmit();
+  }
 
-    // setError(validation(Data));
+  async function handleSubmit() {
     try {
       await instance
         .get("/getuser/" + values.username + "/" + values.password)
         .then((response) => {
-        setData(response.data)
+          toast.success("Login success", { theme: "colored" });
+          navigate("/dashboard");
+          // setData(response.data);
         });
-
-        
-      if (Data.userName === values.username) {
-        toast.success("Login success", { theme: "colored" });
-        navigate("/dashboard");
-      } else {
-        toast.error("Invalid username or password", { theme: "colored" });
-      }
-
-  
-      setValues.username("");
-      setValues.password("");
-      // setUserName("");
-      // setPassword("");
     } catch (error) {
       console.log(error);
-      toast.error("Not Found", { theme: "colored" });
     }
+    
+    // if (Data.userName === values.username) {
+     
+    // } else {
+    //   toast.error("Invalid username or password", { theme: "colored" });
+    // }
+    
   }
 
   return (
     <div className="login template d-flex justify-content-center align-items-center 100-w vh-100 bg-primary  ">
       <div className="40-w p-5 rounded bg-white">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleValidation}>
           <h3 className="text-center mb-3">Login</h3>
           <div className="mb-4">
             <input
               name="username"
               className="form-control"
-              value={values.username}
+              // value={values.username}
               onChange={handleChange}
-              type="text"
-              // pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$"
+              type="email"
               placeholder="Username"
             ></input>
             {errors.username && (
@@ -83,10 +71,8 @@ const Adminlogin = () => {
             <input
               className="form-control"
               name="password"
-              value={values.password}
               onChange={handleChange}
               type="password"
-              // pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required
               placeholder="Password"
             ></input>
             {errors.password && (
