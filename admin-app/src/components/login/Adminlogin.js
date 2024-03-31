@@ -28,11 +28,15 @@ const Adminlogin = () => {
   async function handleSubmit() {
     try {
       await instance
-        .get("/getuser/" + values.username + "/" + values.password)
+        .get("/checkuser/" + values.username + "/" + values.password)
         .then((response) => {
+          if(response.data==true){
           toast.success("Login success", { theme: "colored" });
           navigate("/dashboard");
-          // setData(response.data);
+          }
+          else{
+            toast.error("User Not Found", { theme: "colored" });
+          }
         });
     } catch (error) {
       console.log(error);

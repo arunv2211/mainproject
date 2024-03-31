@@ -25,8 +25,9 @@ function History() {
   }, []);
 
   const loadHistory = async () => {
-    await instance.get("/gettreatmentbyuserid/" + userid).then((res) => {
+    await instance.get("/getuserbyid/" + userid).then((res) => {
       patientHistoryChange(res.data)
+      console.log(res.data)
       // console.log(res.config.data.status)
       // if (res.config.data.status===500) {
       //   toast.error("No History Found", { theme: "colored" });
@@ -74,17 +75,27 @@ function History() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>{patientHistory.treatmentId}</td>
+                  
+                    {/* <td>{patientHistory.}</td>
                     <td>{patientHistory.summary}</td>
                     <td>{patientHistory.suggestion}</td>
                     <td>{patientHistory.diagnosis}</td>
                     <td>{patientHistory.conclusion}</td>
-                    <td>{patientHistory.appointmentDate}</td>
-                    {patientHistory.patientMendicationList.map((items) => (
-                      <td>{items.medicine}</td>
+                    <td>{patientHistory.appointmentDate}</td> */}
+                    {patientHistory.treatmentList.map((items) => (
+                      <tr>
+                        <td>{items.treatmentId}</td>
+                        <td>{items.summary}</td>
+                        <td>{items.suggestion}</td>
+                        <td>{items.diagnosis}</td>
+                        <td>{items.conclusion}</td>
+                        <td>{items.appointmentDate}</td>
+                        {
+                          items.patientMedicationList.map((child) => (<td>{child.medicine}</td>))
+                        }
+                      </tr>
                     ))}
-                    {patientHistory.patientMendicationList.map((items) => (
+                    {/* {patientHistory.patientMendicationList.map((items) => (
                       <td>{items.dosage}</td>
                     ))}
                     {patientHistory.patientMendicationList.map((items) => (
@@ -101,8 +112,8 @@ function History() {
                     ))}
                     {patientHistory.patientMendicationList.map((items) => (
                       <td>{items.after ? (<FcOk />) : (<MdCancel color="#E60000"/>)}</td>
-                    ))}
-                  </tr>
+                    ))} */}
+                  
                 </tbody>
               </table>
             </div>
