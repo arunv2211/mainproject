@@ -34,7 +34,7 @@ const Treatment = () => {
   async function handleSubmit() {
     try {
       await instance.post("/treatmentpost", {
-        userId: userid,
+        userId: values.userId,
         summary: values.summary,
         suggestion: values.suggestion,
         diagnosis: values.diagnosis,
@@ -56,13 +56,30 @@ const Treatment = () => {
           },
         ],
       })
+      toast.success("Treatment Added", { theme: "colored" });
+      setValues.userId("");
+    setValues.summary("");
+    setValues.suggestion("");
+    setValues.diagnosis("");
+    setValues.conclusion("");
+    setValues.appointmentDate("");
+    setValues.medicine("");
+    setValues.dosage("");
+    setValues.morning("");
+    setValues.afternoon("");
+    setValues.night("");
+    setValues.beforeFood("");
+    setValues.afterFood("");
+      
+    navigate("/dashboard");
+    
+
      
     } catch (error) {
       console.log(error);
       toast.error("Server Error", { theme: "colored" });
     }
-    toast.success("Treatment Added", { theme: "colored" });
-    navigate("/dashboard");
+    
   }
 
   return (

@@ -28,17 +28,11 @@ function History() {
     await instance.get("/getuserbyid/" + userid).then((res) => {
       patientHistoryChange(res.data)
       console.log(res.data)
-      // console.log(res.config.data.status)
-      // if (res.config.data.status===500) {
-      //   toast.error("No History Found", { theme: "colored" });
-      //   navigate('/dashboard')
-      // }
-      // else{
-      //   patientHistoryChange(res.data)
-      // }
+      
     });
-    console.log(patientHistory)
+    
     setLoading(true);
+    console.log(patientHistory)
   };
 
   
@@ -47,12 +41,13 @@ function History() {
     <div>
       {
         loading ? (
-          <div className="container-two ">
-      <div className="card">
+          <div>
+            <div className="container-two">
+      <div className="card mt-4 mb-4 bg-info">
         <div className="card-title">
-          <div className="add-container">
+          <div className="add-container bg-info mb-5 pt-2 pb-2 ">
             <div>
-              <div className="d-flex justify-content-between mt-4">
+              <div className="d-flex justify-content-between mt-4 ">
                 <h3>Patient History</h3>
                 <button className="btn btn-danger btn-sm" onClick={loadBack}>Back</button>
               </div>
@@ -90,9 +85,17 @@ function History() {
                         <td>{items.diagnosis}</td>
                         <td>{items.conclusion}</td>
                         <td>{items.appointmentDate}</td>
-                        {
-                          items.patientMedicationList.map((child) => (<td>{child.medicine}</td>))
-                        }
+                        {/* {
+                          items.patientMedicationList.map((child) => (
+                          <td>{child.medicine}</td>))
+                        } */}
+                        <td></td>
+                        <td></td>
+                        <td><FcOk /></td>
+                        <td><FcOk /></td>
+                        <td><FcOk /></td>
+                        <td><MdCancel color="#E60000"/></td>
+                        <td><FcOk /></td>
                       </tr>
                     ))}
                     {/* {patientHistory.patientMendicationList.map((items) => (
@@ -121,6 +124,7 @@ function History() {
         </div>
       </div>
     </div>
+          </div>
         ) : (
           <div className="d-flex align-items-center justify-content-center mt-5">
                   <PuffLoader color="#0000FF" />
