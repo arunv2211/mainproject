@@ -61,7 +61,7 @@ const Adminlogin = () => {
               className="form-control"
               // value={values.username}
               onChange={handleChange}
-              type="email"
+              type="text"
               placeholder="Username"
             ></input>
             {errors.username && (

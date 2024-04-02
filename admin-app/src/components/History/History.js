@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Children, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import instance from "../Dashboard/api";
@@ -25,16 +25,16 @@ function History() {
   }, []);
 
   const loadHistory = async () => {
-    await instance.get("/getuserbyid/" + userid).then((res) => {
+    await instance.get("/treatmentlist/" + userid).then((res) => {
       patientHistoryChange(res.data)
-      console.log(res.data)
+      // console.log(res.data)
       
     });
     
     setLoading(true);
-    console.log(patientHistory)
+    
   };
-
+  console.log(patientHistory)
   
 
   return (
@@ -70,25 +70,65 @@ function History() {
                   </tr>
                 </thead>
                 <tbody>
-                  
-                    {/* <td>{patientHistory.}</td>
-                    <td>{patientHistory.summary}</td>
-                    <td>{patientHistory.suggestion}</td>
-                    <td>{patientHistory.diagnosis}</td>
-                    <td>{patientHistory.conclusion}</td>
-                    <td>{patientHistory.appointmentDate}</td> */}
-                    {patientHistory.treatmentList.map((items) => (
-                      <tr>
+                {
+                  patientHistory.map((items) => (
+                    <tr>
                         <td>{items.treatmentId}</td>
                         <td>{items.summary}</td>
                         <td>{items.suggestion}</td>
                         <td>{items.diagnosis}</td>
                         <td>{items.conclusion}</td>
                         <td>{items.appointmentDate}</td>
-                        {/* {
+                        {items.patientMedicationList.map((child) => (
+                         <td>{child.medicine}</td>
+                        ))}
+                        {items.patientMedicationList.map((child) => (
+                         <td>{child.dosage}</td>
+                        ))}
+                        {items.patientMedicationList.map((innerChild) => (
+                         innerChild.timeList.map((innerMostChild) => (
+                          <td>{innerMostChild.morning ? (<FcOk />) : (<MdCancel color="#E60000"/>)}</td>
+                         ))
+                        ))}
+                        {items.patientMedicationList.map((innerChild) => (
+                         innerChild.timeList.map((innerMostChild) => (
+                          <td>{innerMostChild.afternoon ? (<FcOk />) : (<MdCancel color="#E60000"/>)}</td>
+                         ))
+                        ))}
+                        {items.patientMedicationList.map((innerChild) => (
+                         innerChild.timeList.map((innerMostChild) => (
+                          <td>{innerMostChild.night ? (<FcOk />) : (<MdCancel color="#E60000"/>)}</td>
+                         ))
+                        ))}
+                        {items.patientMedicationList.map((innerChild) => (
+                         innerChild.timeList.map((innerMostChild) => (
+                          <td>{innerMostChild.before ? (<FcOk />) : (<MdCancel color="#E60000"/>)}</td>
+                         ))
+                        ))}
+                        {items.patientMedicationList.map((innerChild) => (
+                         innerChild.timeList.map((innerMostChild) => (
+                          <td>{innerMostChild.after ? (<FcOk />) : (<MdCancel color="#E60000"/>)}</td>
+                         ))
+                        ))}
+                      
+                      
+                </tr>
+                  ))
+                }  
+                
+                    {/* <td>{patientHistory.}</td>
+                    <td>{patientHistory.summary}</td>
+                    <td>{patientHistory.suggestion}</td>
+                    <td>{patientHistory.diagnosis}</td>
+                    <td>{patientHistory.conclusion}</td>
+                    <td>{patientHistory.appointmentDate}</td> */}
+{/*                     
+                    {patientHistory.treatmentList.map((items) => (
+                      
+                         {
                           items.patientMedicationList.map((child) => (
                           <td>{child.medicine}</td>))
-                        } */}
+                        } 
                         <td></td>
                         <td></td>
                         <td><FcOk /></td>
@@ -97,7 +137,8 @@ function History() {
                         <td><MdCancel color="#E60000"/></td>
                         <td><FcOk /></td>
                       </tr>
-                    ))}
+                    ))} */}
+                    
                     {/* {patientHistory.patientMendicationList.map((items) => (
                       <td>{items.dosage}</td>
                     ))}
@@ -115,8 +156,8 @@ function History() {
                     ))}
                     {patientHistory.patientMendicationList.map((items) => (
                       <td>{items.after ? (<FcOk />) : (<MdCancel color="#E60000"/>)}</td>
-                    ))} */}
-                  
+                    ))}
+                   */}
                 </tbody>
               </table>
             </div>

@@ -11,21 +11,19 @@ const EmpDetail = () => {
   const [patientData, patientDataChange] = useState({});
 
   useEffect(() => {
-    instance.get("/getuserbyid/" + userid).then((res) => {
+    instance.get("/userdetailbyid/" + userid).then((res) => {
       patientDataChange(res.data);
     });
     setLoading(true);
   }, []);
- 
+
   console.log(patientData);
-  
 
   return (
     <div className="bg-primary vh-100">
-    
-        <div className="row ">
+      <div className="row ">
         <div className="offset-lg-3 col-lg-6">
-          <div className="container-details mt-5 ">
+          <div className="container-details mt-5 mb-5">
             <div className="card row" style={{ textAlign: "left" }}>
               <div className="card-title">
                 <h2 className="text-center mt-3">
@@ -34,7 +32,7 @@ const EmpDetail = () => {
               </div>
               <div className="card-body"></div>
 
-              {patientData && (
+              {
                 <div>
                   <div className="pb-3">
                     <b>Patient Name</b> - {patientData.userName}
@@ -54,25 +52,20 @@ const EmpDetail = () => {
                   <div className="pb-3">
                     <b>Gender</b> - {patientData.gender}
                   </div>
-                 {/* {
-                  patientData.addressList.map((items) => (
-                    <div className="pb-3">
-                    <div><b>Current Address :</b></div>
-                    <div><b>Country -</b> {items.country}</div>
-                    <div><b>State -</b> {items.state}</div>
-                    <div><b>City -</b> {items.city}</div>
-                    <div><b>Zipcode -</b> {items.zipCode}</div>
-
-                  </div>
-                  ))
-                 }
-                   */}
-                
+                 {patientData.address.map((items) => {
+                    <div>
+                      <b>Address type - {items.addressType}</b>
+                    <b>Country -{items.country}</b>
+                    <b>State -{items.state}</b>
+                    <b>City -{items.city}</b>
+                    <b>Zipcode -{items.zip_code}</b>
+                    </div>
+                 })}
                   <Link to="/dashboard" className="btn btn-danger mb-3 ">
                     Back to Listing
                   </Link>
                 </div>
-              )}
+              }
 
               {/* <div>
                 <div className="pb-3">patient name : Arun</div>
@@ -94,5 +87,3 @@ const EmpDetail = () => {
 };
 
 export default EmpDetail;
-
-
