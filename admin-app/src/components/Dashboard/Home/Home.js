@@ -109,8 +109,9 @@ function Home() {
           <table className="table table-bordered">
             <thead className="bg-dark text-white">
               <tr className="table-secondary">
-                <th>UserId</th>
-                <th>UserName</th>
+                <th>User Id</th>
+                <th>Name</th>
+                <th>Email</th>
                 <th>Password</th>
                 <th>Number</th>
                 <th>Date Of Birth</th>
@@ -127,6 +128,7 @@ function Home() {
                 }).map((user, index) => (
                   <tr key={user.userId}>
                     <td>{user.userId}</td>
+                    <td>{user.name}</td>
                     <td>{user.userName}</td>
                     <td>{user.password}</td>
                     <td>{user.phoneNo}</td>

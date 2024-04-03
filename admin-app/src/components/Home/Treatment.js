@@ -12,7 +12,7 @@ const Treatment = () => {
   const { userid } = useParams();
   const navigate = useNavigate();
   const [values, setValues] = useState({
-    userId: userid,
+    userIdFk: userid,
     summary: "",
     suggestion: "",
     diagnosis: "",
@@ -33,14 +33,37 @@ const Treatment = () => {
 
   async function handleSubmit() {
     try {
+      // console.log({
+      //   userIdFk: userid,
+      //   summary: values.summary,
+      //   suggestion: values.suggestion,
+      //   diagnosis: values.diagnosis,
+      //   conclusion: values.conclusion,
+      //   appointmentDate: values.appointmentDate,
+      //   patientMedicationList: [
+      //     {
+      //       medicine: values.medicine,
+      //       dosage: values.dosage,
+      //       timeList: [
+      //         {
+      //           morning: values.morning,
+      //           afternoon: values.afternoon,
+      //           night: values.night,
+      //           after: values.afterFood,
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // })
+      // alert("helo");
       await instance.post("/treatmentpost", {
-        userId: values.userId,
+        userIdFk: userid,
         summary: values.summary,
         suggestion: values.suggestion,
         diagnosis: values.diagnosis,
         conclusion: values.conclusion,
-        appointment_date: values.appointmentDate,
-        patientMendicationList: [
+        appointmentDate: values.appointmentDate,
+        patientMedicationList: [
           {
             medicine: values.medicine,
             dosage: values.dosage,
@@ -49,7 +72,6 @@ const Treatment = () => {
                 morning: values.morning,
                 afternoon: values.afternoon,
                 night: values.night,
-                // before:values.beforeFood,
                 after: values.afterFood,
               },
             ],

@@ -8,18 +8,11 @@ import Validation from "./Vallidation";
 
 const EmpCreate = () => {
   const navigate = useNavigate();
-  // const [id, setId] = useState("");
-  // const [name, setName] = useState("");
-  // const [username, setUserame] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [age, setAge] = useState("");
-  // const [gender, setGender] = useState("");
-  // const [dob, setDob] = useState("");
-  // const [phoneno, setPhoneno] = useState("");
-  // const [alternateno, setAlternateno] = useState("");
-  // const [permanentAddress, setPermanentAddress] = useState("");
-  // const [currentAddress, setCurrentaddress] = useState("");
+  const [errors, setErrors] = useState({});
+  const [permanentAddress, setPermanentAddress] = useState("permanent");
+  const [currentAddress, setCurrentaddress] = useState("current");
   const [values, setValues] = useState({
+    name:"",
     username: "",
     password: "",
     age: "",
@@ -37,8 +30,6 @@ const EmpCreate = () => {
     currentzip_code: "",
   });
 
-  const [errors, setErrors] = useState({});
-
   function handleInput(event) {
     // const newObj = {...values,[event.target.name]: event.target.value}
     // setValues(newObj)
@@ -52,30 +43,30 @@ const EmpCreate = () => {
   }
 
   async function handleSubmit() {
-    // event.preventDefault();
     try {
       await instance.post("/create", {
+        name: values.name,
         userName: values.username,
         password: values.password,
         age: values.age,
         gender: values.gender,
         phoneNo: values.phoneno,
-        aternateNo: values.alternateno,
+        alternateNo: values.alternateno,
         dateOfBirth: values.dob,
         address: [
           {
-            address_type: "permanent",
+            addressType: "Permanent",
             country: values.country,
             state: values.state,
             city: values.city,
-            zip_code: values.zip_code,
+            zipCode: values.zip_code,
           },
           {
-            address_type: "current",
+            addressType: "Current",
             country: values.currentcountry,
             state: values.currentstate,
             city: values.currentcity,
-            zip_code: values.currentzip_code,
+            zipCode: values.currentzip_code,
           },
         ]
       });
@@ -104,10 +95,27 @@ const EmpCreate = () => {
               </div>
               <div className="card-body">
                 <div className="row">
+                  
+                <div className="col-lg-12 pb-4">
+                    <div className="form-group">
+                      <label>
+                        <b>Name</b>
+                      </label>
+                      <input
+                        className="form-control"
+                        name="name"
+                        type="text"
+                        // value={values.password}
+                        onChange={handleInput}
+                        // onChange={(e) => setPassword(e.target.value)}
+                      ></input>
+                    </div>
+                  </div>
+
                   <div className="col-lg-12 pb-4">
                     <div className="form-group">
                       <label>
-                        <b>Username</b>
+                        <b>Email Id</b>
                       </label>
                       <input
                         className="form-control"

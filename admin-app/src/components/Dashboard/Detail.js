@@ -34,8 +34,11 @@ const EmpDetail = () => {
 
               {
                 <div>
+                   <div className="pb-3">
+                    <b>Name</b> - {patientData.name}
+                  </div>
                   <div className="pb-3">
-                    <b>Patient Name</b> - {patientData.userName}
+                    <b>Email Id</b> - {patientData.userName}
                   </div>
                   <div className="pb-3">
                     <b>Age</b> - {patientData.age}{" "}
@@ -52,7 +55,7 @@ const EmpDetail = () => {
                   <div className="pb-3">
                     <b>Gender</b> - {patientData.gender}
                   </div>
-                 {patientData.address.map((items) => {
+                 {/* {patientData.address.map((items) => {
                     <div>
                       <b>Address type - {items.addressType}</b>
                     <b>Country -{items.country}</b>
@@ -60,7 +63,7 @@ const EmpDetail = () => {
                     <b>City -{items.city}</b>
                     <b>Zipcode -{items.zip_code}</b>
                     </div>
-                 })}
+                 })} */}
                   <Link to="/dashboard" className="btn btn-danger mb-3 ">
                     Back to Listing
                   </Link>
