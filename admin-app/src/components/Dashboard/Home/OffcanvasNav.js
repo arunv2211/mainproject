@@ -1,19 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoHome } from "react-icons/io5";
 import { RiLogoutCircleRLine } from "react-icons/ri";
+import '../Home/navbar.css'
 
 const OffcanvasNav = () => {
+  const navigate = useNavigate();
+  const[logout,setLogout]= useState(false);
+
+  useEffect(()=>{
+    if(!localStorage.getItem('auth'))
+    navigate('/')
+  },[logout])
   
-const navigate = useNavigate();
-function logout(){
-navigate('/')
+
+function Logout(event){
+  event.preventDefault();
+  localStorage.removeItem('auth');
+  setLogout(true)
 }
 
   return (
     <div>
       <div>
-        <nav class="navbar navbar-expand-lg bg-primary text-white fixed-top">
+        <nav class="navbar navbar-expand-lg bg-primary text-white fixed-top shadow ">
           <div class="container-fluid text-white">
             <a class="navbar-brand text-white" href="#">
               Admin
@@ -55,7 +65,7 @@ navigate('/')
                     </a>
                   </li>
                   <li class="nav-item ">
-                    <a class="nav-link text-white" href="/">
+                    <a class="nav-link text-white" href="#" onClick={Logout}>
                     <b>logout</b>  
                     </a>
                   </li>

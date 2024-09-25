@@ -4,9 +4,16 @@
 import Home from "./Home";
 import "bootstrap/dist/css/bootstrap.css";
 import OffcanvasNav from "./OffcanvasNav";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 
 function Navbar() {
+ 
+  const navigate = new useNavigate();
+ 
+
   return (
     <div>
       <div className="nav">

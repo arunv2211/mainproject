@@ -26,15 +26,15 @@ function History() {
 
   const loadHistory = async () => {
     await instance.get("/treatmentlist/" + userid).then((res) => {
-      patientHistoryChange(res.data)
-      // console.log(res.data)
-      
+      console.log(res)
+      patientHistoryChange(res.data.data.data)
+      console.log(res.data.data.data)
     });
     
     setLoading(true);
     
   };
-  console.log(patientHistory)
+  // console.log(patientHistory)
   
 
   return (
@@ -65,8 +65,8 @@ function History() {
                     <th scope="col">Morning</th>
                     <th scope="col">Afternoon</th>
                     <th scope="col">NIght</th>
-                    <th scope="col">Before Food</th>
-                    <th scope="col">After Food</th>
+                    {/* <th scope="col">Before Food</th>
+                    <th scope="col">After Food</th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -100,7 +100,7 @@ function History() {
                           <td>{innerMostChild.night ? (<FcOk />) : (<MdCancel color="#E60000"/>)}</td>
                          ))
                         ))}
-                        {items.patientMedicationList.map((innerChild) => (
+                        {/* {items.patientMedicationList.map((innerChild) => (
                          innerChild.timeList.map((innerMostChild) => (
                           <td>{innerMostChild.before ? (<FcOk />) : (<MdCancel color="#E60000"/>)}</td>
                          ))
@@ -109,7 +109,7 @@ function History() {
                          innerChild.timeList.map((innerMostChild) => (
                           <td>{innerMostChild.after ? (<FcOk />) : (<MdCancel color="#E60000"/>)}</td>
                          ))
-                        ))}
+                        ))} */}
                       
                       
                 </tr>

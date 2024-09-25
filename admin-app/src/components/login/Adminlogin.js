@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import '../login/login.css'
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import instance from "../Dashboard/api";
@@ -25,14 +26,22 @@ const Adminlogin = () => {
     handleSubmit();
   }
 
+  useEffect(()=>{
+    if(localStorage.getItem('auth'))
+    navigate('/dashboard')
+  },[])
+
   async function handleSubmit() {
     try {
       await instance
         .get("/checkuser/" + values.username + "/" + values.password)
         .then((response) => {
-          if(response.data==true){
+          console.log(response.data)
+          if(response.data.success==true){
           toast.success("Login success", { theme: "colored" });
+          
           navigate("/dashboard");
+          localStorage.setItem('auth',true)
           }
           else{
             toast.error("User Not Found", { theme: "colored" });
@@ -51,10 +60,11 @@ const Adminlogin = () => {
   }
 
   return (
-    <div className="login template d-flex justify-content-center align-items-center 100-w vh-100 bg-primary  ">
-      <div className="40-w p-5 rounded bg-white">
+    <div className="backgroundimg">
+      <div className="login template d-flex justify-content-center align-items-center 100-w vh-100 ">
+      <div className=" shadow-lg 40-w p-5 rounded bg-white">
         <form onSubmit={handleValidation}>
-          <h3 className="text-center mb-3">Login</h3>
+          <h3 className="text-center mb-3 ">Login</h3>
           <div className="mb-4">
             <input
               name="username"
@@ -86,12 +96,13 @@ const Adminlogin = () => {
             )}
           </div>
           <div className="d-grid">
-            <button className="btn btn-primary" type="submit">
+            <button className="btn btn-primary shadow" type="submit">
               Login
             </button>
           </div>
         </form>
       </div>
+    </div>
     </div>
   );
 };

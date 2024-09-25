@@ -10,20 +10,14 @@ import { ToastContainer } from "react-toastify";
 import Treatment from "./components/Home/Treatment";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import History from "./components/History/History";
-
-
-
 function App() {
   return (
     <div className="App">
-
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Adminlogin />} />
           <Route exact path="/dashboard" element={<Dashboard />} />
-
           <Route path="/dashboard/create" element={<Create />}></Route>
-
           <Route path='/dashboard/details/:userid' element={<Detail />}></Route>
           <Route path='/dashboard/edit/:userid' element={<Edit />}></Route>
           <Route path='/dashboard/treatment/:userid' element={<Treatment />}></Route>
@@ -32,15 +26,6 @@ function App() {
         </Routes>
       </BrowserRouter>
       <ToastContainer />
-      
-
-
-      
-      {/* <Adminlogin />      */}
-      {/* <Dashboard /> */}
-      {/* <Create /> */}
-      {/* <Detail /> */}
-      {/* <Edit /> */}
     </div>
   );
 }

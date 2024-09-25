@@ -16,6 +16,7 @@ import { BsPersonFillAdd } from "react-icons/bs";
 import { MdChecklist } from "react-icons/md";
 import TreatmentForm from "../TreatmentForm";
 import History from "../../History/History";
+import Homepage from "./Homepage";
 
 
 
@@ -55,6 +56,7 @@ function Home() {
         });
     }
   };
+  
 
   const [Data, setData] = useState([]);
 
@@ -71,6 +73,8 @@ function Home() {
   // const [openPopup, setOpenPopup] = useState(false);
   return (
     <div className="container-two">
+
+
       <div className="card">
         <div className="card-title ">
           <div className="add-container">
@@ -89,7 +93,7 @@ function Home() {
             <div >
               <Link
                 to="/dashboard/create"
-                className="btn btn-primary  w-10 p-1"
+                className="btn btn-primary  w-10 p-1 shadow"
               >
                <b> Add new</b>
                 <BsPersonFillAdd />
@@ -106,10 +110,10 @@ function Home() {
               ></input>
             </div>
           </div>
-          <table className="table table-bordered">
+          <table className="table table-bordered shadow">
             <thead className="bg-dark text-white">
               <tr className="table-secondary">
-                <th>User Id</th>
+                <th >User Id</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Password</th>
@@ -124,7 +128,7 @@ function Home() {
                 Data.filter((user) => {
                   return search.toLowerCase() === ""
                     ? user
-                    : user.userName.toLowerCase().includes(search);
+                    : user.name.toLowerCase().includes(search);
                 }).map((user, index) => (
                   <tr key={user.userId}>
                     <td>{user.userId}</td>
@@ -138,7 +142,7 @@ function Home() {
                         onClick={() => {
                           LoadEdit(user.userId);
                         }}
-                        className="btn btn-success"
+                        className="btn btn-success shadow"
                       >
                         <LiaUserEditSolid />
                       </a>
@@ -146,7 +150,7 @@ function Home() {
                         onClick={() => {
                           Removefunction(user.userId);
                         }}
-                        className="btn btn-danger "
+                        className="btn btn-danger shadow"
                       >
                         <RiDeleteBin2Fill />
                       </a>
@@ -154,7 +158,7 @@ function Home() {
                         onClick={() => {
                           LoadDetail(user.userId);
                         }}
-                        className="btn btn-primary"
+                        className="btn btn-primary shadow"
                       >
                         <RiFileList2Line />
                       </a>
@@ -165,7 +169,7 @@ function Home() {
                         onClick={() => {
                           LoadForm(user.userId);
                         }}
-                        className="btn btn-secondary btn-sm"
+                        className="btn btn-secondary btn-sm shadow"
                       >Treatment
                         </a>
 
@@ -173,7 +177,7 @@ function Home() {
                         onClick={() => {
                           LoadHistory(user.userId);
                         }}
-                        className="btn btn-primary btn-sm"
+                        className="btn btn-primary btn-sm shadow"
                       >History
                         </a>
                     </td>

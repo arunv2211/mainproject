@@ -9,8 +9,9 @@ const Edit = () => {
   const navigate = useNavigate();
   const { userid } = useParams();
   const [Userid, setUserId] = useState("");
+  const [name, setName] = useState("");
   const [username, setUserame] = useState("");
-  const [password, setPassword] = useState("");
+  // const [password, setPassword] = useState("");
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
   const [dob, setDob] = useState("");
@@ -41,24 +42,25 @@ const Edit = () => {
   ]);
 
   useEffect(() => {
-    instance.get("/getuserbyid/" + userid).then((res) => {
+    instance.get("/userdetailbyid/" + userid).then((res) => {
       patientDataChange(res.data);
       setUserId(res.data.userid);
+      setName(res.data.name);
       setUserame(res.data.userName);
-      setPassword(res.data.password);
+      // setPassword(res.data.password);
       setAge(res.data.age);
       setGender(res.data.gender);
       setDob(res.data.dateOfBirth);
       setPhoneno(res.data.phoneNo);
       setAlternateno(res.data.alternateNo);
-      res.data.addressList.map((items, index) => {
-        if(res.data.addressList[0]){
+      res.data.address.map((items, index) => {
+        if(res.data.address[0]){
           setCurrentCountry(items.country);
         setCurrentState(items.state);
         setCurrentCity(items.city);
         setCurrentZipCode(items.zip_code);
         }
-        if(res.data.addressList[1]){
+        if(res.data.address[1]){
           
         setCountry(items.country);
         setState(items.state);
@@ -75,8 +77,9 @@ console.log(patientData)
     try {
       await instance.put("/update", {
         userId:userid,
+        name:name,
         userName: username,
-        password: password,
+        // password: password,
         age: age,
         gender: gender,
         phoneNo: phoneno,
@@ -104,7 +107,7 @@ console.log(patientData)
       toast.success("Updated successfully",{theme:'colored'});
       navigate('/dashboard');
       setUserame("");
-      setPassword("");
+      // setPassword("");
       setAge("");
       setGender("");
       setPhoneno("");
@@ -127,6 +130,23 @@ console.log(patientData)
               </div>
               <div className="card-body">
                 <div className="row">
+                <div className="col-lg-12 pb-3">
+                      <div className="form-group">
+                        <label>
+                          <b>Name</b>
+                        </label>
+                        <input
+                        value={name}
+                          className="form-control shadow-none"
+                          name="name"
+                          type="text"
+                          // value={values.password}
+                          onChange={(e) => setName(e.target.value)}
+                          // onChange={(e) => setPassword(e.target.value)}
+                        ></input>
+                      </div>
+                    </div>
+
                   <div className="col-lg-12 pb-4">
                     <div className="form-group">
                       <label><b>Username</b></label>
@@ -139,16 +159,6 @@ console.log(patientData)
                     </div>
                   </div>
 
-                  <div className="col-lg-12 pb-4">
-                    <div className="form-group">
-                      <label><b>Password</b></label>
-                      <input
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="form-control"
-                      ></input>
-                    </div>
-                  </div>
                   <div className="col-lg-12 pb-4">
                     <div className="form-group">
                       <label><b>Age</b></label>

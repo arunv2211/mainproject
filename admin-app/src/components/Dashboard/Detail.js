@@ -4,23 +4,36 @@ import "bootstrap/dist/css/bootstrap.css";
 import { Link, useParams } from "react-router-dom";
 import instance from "./api";
 import PuffLoader from "react-spinners/PuffLoader";
+import '../History/history.css'
+import '../Dashboard/Details.css'
+
 
 const EmpDetail = () => {
   const { userid } = useParams();
   let [loading, setLoading] = useState(false);
   const [patientData, patientDataChange] = useState({});
-
+  
   useEffect(() => {
-    instance.get("/userdetailbyid/" + userid).then((res) => {
-      patientDataChange(res.data);
-    });
-    setLoading(true);
+    loadDetails();
   }, []);
 
+  const loadDetails = async () => {
+    await instance.get("/userdetailbyid/" + userid).then((res) => {
+      patientDataChange(res.data)
+      // console.log(res.data)
+      
+    });
+    
+    setLoading(true);
+    
+  };
   console.log(patientData);
 
+
+
+
   return (
-    <div className="bg-primary vh-100">
+    <div className="details_page vh-100">
       <div className="row ">
         <div className="offset-lg-3 col-lg-6">
           <div className="container-details mt-5 mb-5">
@@ -33,54 +46,48 @@ const EmpDetail = () => {
               <div className="card-body"></div>
 
               {
-                <div>
-                   <div className="pb-3">
-                    <b>Name</b> - {patientData.name}
-                  </div>
-                  <div className="pb-3">
-                    <b>Email Id</b> - {patientData.userName}
-                  </div>
-                  <div className="pb-3">
-                    <b>Age</b> - {patientData.age}{" "}
-                  </div>
-                  <div className="pb-3">
-                    <b>Date Of Birth</b> - {patientData.dateOfBirth}{" "}
-                  </div>
-                  <div className="pb-3">
-                    <b>Phone No</b> - {patientData.phoneNo}{" "}
-                  </div>
-                  <div className="pb-3">
-                    <b>Aternate no</b> - {patientData.alternateNo}
-                  </div>
-                  <div className="pb-3">
-                    <b>Gender</b> - {patientData.gender}
-                  </div>
-                 {/* {patientData.address.map((items) => {
+                patientData &&
                     <div>
-                      <b>Address type - {items.addressType}</b>
-                    <b>Country -{items.country}</b>
-                    <b>State -{items.state}</b>
-                    <b>City -{items.city}</b>
-                    <b>Zipcode -{items.zip_code}</b>
+                      <div className="pb-3">
+                        <b>Name</b> - {patientData.name}
+                      </div>
+                      <div className="pb-3">
+                        <b>Email Id</b> - {patientData.userName}
+                      </div>
+                      <div className="pb-3">
+                        <b>Age</b> - {patientData.age}
+                      </div>
+                      <div className="pb-3">
+                        <b>Date Of Birth</b> - {patientData.dateOfBirth}{" "}
+                      </div>
+                      <div className="pb-3">
+                        <b>Phone No</b> - {patientData.phoneNo}
+                      </div>
+                      <div className="pb-3">
+                        <b>Aternate no</b> - {patientData.alternateNo}
+                      </div>
+                      <div className="pb-3">
+                        <b>Gender</b> - {patientData.gender}
+                      </div>
+                      {/* {
+                        patientData.address.map((child) => (
+                        <div>
+                        <div>Address type - {child.addressType}</div>
+                        <div>Country -{child.country}</div>
+                        <div>State -{child.state}</div>
+                        <div>City -{child.city}</div>
+                        <div>Zipcode -{child.zipCode}</div>
+                        <br></br>
+                        </div>
+    
+                        ))
+                      } */}
+    
+                      <Link to="/dashboard" className="btn btn-danger mb-3 ">
+                        Back to Listing
+                      </Link>
                     </div>
-                 })} */}
-                  <Link to="/dashboard" className="btn btn-danger mb-3 ">
-                    Back to Listing
-                  </Link>
-                </div>
               }
-
-              {/* <div>
-                <div className="pb-3">patient name : Arun</div>
-
-                <div className="pb-3">Phone : 2103987097 </div>
-                <div className="pb-3">Aternate no : 2103987097 </div>
-                <div className="pb-3">
-                  Address : 234,road st, arni , tvmalai{" "}
-                </div>
-                <div className="pb-3">Medicines : </div>
-                <Link to="/dashboard" className="btn btn-danger mb-3 ">Back to Listing</Link>
-              </div> */}
             </div>
           </div>
         </div>
@@ -90,3 +97,5 @@ const EmpDetail = () => {
 };
 
 export default EmpDetail;
+
+

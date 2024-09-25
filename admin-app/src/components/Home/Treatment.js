@@ -11,6 +11,7 @@ import React from "react";
 const Treatment = () => {
   const { userid } = useParams();
   const navigate = useNavigate();
+  const[dosage,setDosage] = useState();
   const [values, setValues] = useState({
     userIdFk: userid,
     summary: "",
@@ -20,41 +21,53 @@ const Treatment = () => {
     appointmentDate: "",
     medicine: "",
     dosage: "",
-    morning: "",
-    afternoon: "",
-    night: "",
-    beforeFood: "",
-    afterFood: "",
+    startDate:"",
+    endDate:"",
+    // morning: "",
+    // afternoon: "",
+    // night: "",
+    // beforeFood: "",
+    // afterFood: "",
+    morningTime:"",
+    afternoonTime:"",
+    nightTime:""
   });
 
   function handleInput(event) {
     setValues({ ...values, [event.target.name]: event.target.value });
+    
   }
+  console.log({
+    userIdFk: userid,
+    summary: values.summary,
+    suggestion: values.suggestion,
+    diagnosis: values.diagnosis,
+    conclusion: values.conclusion,
+    appointmentDate: values.appointmentDate,
+    patientMedicationList: [
+      {
+        medicine: values.medicine,
+        dosage: values.dosage,
+        startDate:values.startDate,
+        endDate:values.endDate,
+        timeList: [
+          {
+            // morning: values.morning,
+            // afternoon: values.afternoon,
+            // night: values.night,
+            // after: values.afterFood,
+            morningTime:values.morningTime,
+            afternoonTime:values.afternoonTime,
+            nightTime:values.nightTime
+          },
+        ],
+      },
+    ],
+  })
 
   async function handleSubmit() {
     try {
-      // console.log({
-      //   userIdFk: userid,
-      //   summary: values.summary,
-      //   suggestion: values.suggestion,
-      //   diagnosis: values.diagnosis,
-      //   conclusion: values.conclusion,
-      //   appointmentDate: values.appointmentDate,
-      //   patientMedicationList: [
-      //     {
-      //       medicine: values.medicine,
-      //       dosage: values.dosage,
-      //       timeList: [
-      //         {
-      //           morning: values.morning,
-      //           afternoon: values.afternoon,
-      //           night: values.night,
-      //           after: values.afterFood,
-      //         },
-      //       ],
-      //     },
-      //   ],
-      // })
+      
       // alert("helo");
       await instance.post("/treatmentpost", {
         userIdFk: userid,
@@ -67,12 +80,17 @@ const Treatment = () => {
           {
             medicine: values.medicine,
             dosage: values.dosage,
+            startDate:values.startDate,
+            endDate:values.endDate,
             timeList: [
               {
-                morning: values.morning,
-                afternoon: values.afternoon,
-                night: values.night,
-                after: values.afterFood,
+                // morning: values.morning,
+                // afternoon: values.afternoon,
+                // night: values.night,
+                // after: values.afterFood,
+                morningTime:values.morningTime,
+                afternoonTime:values.afternoonTime,
+                nightTime:values.nightTime
               },
             ],
           },
@@ -87,11 +105,11 @@ const Treatment = () => {
     setValues.appointmentDate("");
     setValues.medicine("");
     setValues.dosage("");
-    setValues.morning("");
-    setValues.afternoon("");
-    setValues.night("");
-    setValues.beforeFood("");
-    setValues.afterFood("");
+    // setValues.morning("");
+    // setValues.afternoon("");
+    // setValues.night("");
+    // setValues.beforeFood("");
+    // setValues.afterFood("");
       
     navigate("/dashboard");
     
@@ -99,7 +117,7 @@ const Treatment = () => {
      
     } catch (error) {
       console.log(error);
-      toast.error("Server Error", { theme: "colored" });
+      // toast.error("Server Error", { theme: "colored" });
     }
     
   }
@@ -115,6 +133,23 @@ const Treatment = () => {
               </div>
               <div className="card-body">
                 <div className="row">
+
+                <div className="col-lg-12 pb-4">
+                    <div className="form-group">
+                      <label>
+                        <b>Appointment Date</b>
+                      </label>
+                      <input
+                        type="date"
+                        name="appointmentDate"
+                        // value={values.dob}
+                        onChange={handleInput}
+                        // onChange={(e) => setDob(e.target.value)}
+                        className="form-control"
+                      ></input>
+                    </div>
+                  </div>
+
                   <div className="col-lg-12 pb-4">
                     <div className="form-group">
                       <label>
@@ -179,21 +214,7 @@ const Treatment = () => {
                     </div>
                   </div>
 
-                  <div className="col-lg-12 pb-4">
-                    <div className="form-group">
-                      <label>
-                        <b>Appointment Date</b>
-                      </label>
-                      <input
-                        type="date"
-                        name="appointmentDate"
-                        // value={values.dob}
-                        onChange={handleInput}
-                        // onChange={(e) => setDob(e.target.value)}
-                        className="form-control"
-                      ></input>
-                    </div>
-                  </div>
+                 
 
                   <div className="col-lg-12 pb-4">
                     <div className="form-group">
@@ -226,6 +247,34 @@ const Treatment = () => {
                   </div>
 
                   <div className="col-lg-12 pb-4">
+                    <div className="form-group">
+                      <label>
+                        <b>Start Date</b>
+                      </label>
+                      <input
+                        type="text"
+                        name="startDate"
+                        onChange={handleInput}
+                        className="form-control"
+                      ></input>
+                    </div>
+                  </div>
+
+                  <div className="col-lg-12 pb-4">
+                    <div className="form-group">
+                      <label>
+                        <b>End Date</b>
+                      </label>
+                      <input
+                        type="text"
+                        name="endDate"
+                        onChange={handleInput}
+                        className="form-control"
+                      ></input>
+                    </div>
+                  </div>
+
+                  {/* <div className="col-lg-12 pb-4">
                     <div className="form-group d-flex flex-row">
                       <label>
                         <b>Morning </b>
@@ -384,6 +433,52 @@ const Treatment = () => {
                           No
                         </label>
                       </div>
+                    </div>
+                  </div> */}
+
+                  
+                  <div className="col-lg-12 pb-4">
+                    <div className="form-group">
+                      <label>
+                        <b>Morning Time</b>
+                      </label>
+                      <input
+                      required
+                        type="time"
+                        name="morningTime"
+                        onChange={handleInput}
+                        className="form-control"
+                      ></input>
+                    </div>
+                  </div>
+
+                  <div className="col-lg-12 pb-4">
+                    <div className="form-group">
+                      <label>
+                        <b>Afternoon Time</b>
+                      </label>
+                      <input
+                        type="time"
+                        name="afternoonTime"
+                        onChange={handleInput}
+                        required
+                        className="form-control"
+                      ></input>
+                    </div>
+                  </div>
+
+                  <div className="col-lg-12 pb-4">
+                    <div className="form-group">
+                      <label>
+                        <b>Night Time</b>
+                      </label>
+                      <input
+                        type="time"
+                        name="nightTime"
+                        onChange={handleInput}
+                        className="form-control"
+                        required
+                      ></input>
                     </div>
                   </div>
 
